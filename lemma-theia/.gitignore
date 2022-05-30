@@ -1,0 +1,6 @@
+src-gen/
+lib/
+plugins/*
+!plugins/lemma-data-dsl-0.0.1.vsix
+gen-webpack.config.js
+node_modules

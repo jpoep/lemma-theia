@@ -1,0 +1,64 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "LEMMA Domain Data DSL",
+  "scopeName": "de.fhdo.lemma",
+  "patterns": [
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#strings"
+	}  
+  ],
+  "repository": {
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.type.primitive",
+          "match": "\\b(boolean|byte|short|int|long|float|double|char|string|date)\\b"
+        },
+        {
+          "name": "keyword.datafield.feature",
+          "match": "\\b(hide|immutable)\\b"
+        },
+        {
+          "name": "keyword.operation.feature",
+          "match": "\\b(hide)\\b"
+        },
+        {
+          "name": "keyword.structure.feature",
+          "match": "\\b(entity|valueObject|)\\b"
+        },
+        {
+          "name": "keyword.misc",
+          "match": "\\b(extends)\\b"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [{ "include": "#double-qoutes" }, { "include": "#single-qoutes" }]
+    },
+    "double-qoutes": {
+      "name": "string.quoted.double",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "name": "constant.character.escape",
+          "match": "\\\\."
+        }
+      ]
+    },
+    "single-quotes": {
+      "name": "string.quoted.single",
+      "begin": "'",
+      "end": "'",
+      "patterns": [
+        {
+          "name": "constant.character.escape",
+          "match": "\\\\."
+        }
+      ]
+    }
+  }
+}

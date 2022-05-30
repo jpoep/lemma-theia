@@ -1,0 +1,175 @@
+{
+  "name": "lemma-data-dsl",
+  "displayName": "lemma-data-dsl",
+  "description": "Language support for LEMMA's domain data DSL",
+  "version": "0.0.1",
+  "repository": {
+    "url": "https://gitlab.com/jpoep/master-thesis/lemma-data-dsl-vscode"
+  },
+  "engines": {
+    "vscode": "^1.63.1"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "lemma-data-dsl",
+        "aliases": [
+          "LEMMA Domain Data DSL",
+          "lemma-data-dsl"
+        ],
+        "extensions": [
+          ".data"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "lemma-data-dsl",
+        "scopeName": "de.fhdo.lemma",
+        "path": "./syntaxes/lemma-data-dsl.tmLanguage.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "lemma-data-dsl.diagram.open",
+        "title": "Open in Diagram",
+        "icon": "$(symbol-structure)",
+        "category": "Lemma Data DSL Diagram"
+      },
+      {
+        "command": "lemma-data-dsl.diagram.fit",
+        "title": "Fit to Screen",
+        "category": "Lemma Data DSL Diagram"
+      },
+      {
+        "command": "lemma-data-dsl.diagram.center",
+        "title": "Center selection",
+        "category": "Lemma Data DSL Diagram"
+      },
+      {
+        "command": "lemma-data-dsl.diagram.delete",
+        "title": "Delete selected element",
+        "category": "Lemma Data DSL Diagram"
+      },
+      {
+        "command": "lemma-data-dsl.diagram.export",
+        "title": "Export diagram to SVG",
+        "category": "Lemma Data DSL Diagram"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "lemma-data-dsl.diagram.open",
+          "when": "editorLangId == 'lemma-data-dsl'"
+        },
+        {
+          "command": "lemma-data-dsl.diagram.fit",
+          "when": "data-dsl-diagram-focused"
+        },
+        {
+          "command": "lemma-data-dsl.diagram.center",
+          "when": "data-dsl-diagram-focused"
+        },
+        {
+          "command": "lemma-data-dsl.diagram.delete",
+          "when": "data-dsl-diagram-focused"
+        },
+        {
+          "command": "lemma-data-dsl.diagram.export",
+          "when": "data-dsl-diagram-focused"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "lemma-data-dsl.diagram.open",
+          "when": "editorLangId == 'lemma-data-dsl'",
+          "group": "navigation"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "lemma-data-dsl.diagram.open",
+          "when": "editorLangId == 'lemma-data-dsl'",
+          "group": "navigation"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "lemma-data-dsl.diagram.open",
+          "when": "resourceExtname == '.data'",
+          "group": "navigation"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "key": "alt+f",
+        "mac": "alt+f",
+        "command": "lemma-data-dsl.diagram.fit",
+        "when": "data-dsl-diagram-focused"
+      },
+      {
+        "key": "alt+c",
+        "mac": "alt+c",
+        "command": "lemma-data-dsl.diagram.center",
+        "when": "data-dsl-diagram-focused"
+      },
+      {
+        "key": "alt+e",
+        "mac": "alt+e",
+        "command": "lemma-data-dsl.diagram.export",
+        "when": "data-dsl-diagram-focused"
+      },
+      {
+        "key": "delete",
+        "mac": "delete",
+        "command": "lemma-data-dsl.diagram.delete",
+        "when": "data-dsl-diagram-focused"
+      }
+    ]
+  },
+  "activationEvents": [
+    "onLanguage:lemma-data-dsl",
+    "onCommand:lemma-data-dsl.diagram.open"
+  ],
+  "main": "./pack/lemma-data-dsl-extension.js",
+  "files": [
+    "lib",
+    "extension",
+    "syntaxes",
+    "webview"
+  ],
+  "scripts": {
+    "prepare": "yarn run clean && yarn run build",
+    "clean": "rimraf extension/lib extension/pack",
+    "build": "tsc && webpack --mode=development",
+    "watch": "tsc -w",
+    "watch:webpack": "webpack --mode=development --watch",
+    "publish": "vsce publish",
+    "package": "yarn copy:lsp && vsce package",
+    "copy:lsp": "cpr ../../lemma/de.fhdo.lemma.data.datadsl.ide/target/de.fhdo.lemma.data.datadsl.ide-0.8.5-SNAPSHOT-ls.jar ./language-server/ -o"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.0",
+    "@types/vscode": "^1.63.1",
+    "eslint": "^8.7.0",
+    "rimraf": "^3.0.2",
+    "source-map-loader": "^3.0.1",
+    "sprotty-vscode": "^0.1.0",
+    "ts-loader": "^9.2.6",
+    "typescript": "^4.5.5",
+    "vsce": "^2.7.0",
+    "vscode-languageclient": "5",
+    "webpack": "^5.67.0",
+    "webpack-cli": "^4.9.1",
+    "cpr": "latest"
+  },
+  "dependencies": {
+    "net": "^1.0.2"
+  }
+}
