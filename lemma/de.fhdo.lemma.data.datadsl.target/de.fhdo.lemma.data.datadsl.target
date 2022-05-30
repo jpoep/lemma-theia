@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.8"?>
+<target name="de.fhdo.elmma.data.datadsl.target" sequenceNumber="1">
+	<locations>
+		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<unit id="org.eclipse.jdt.feature.group" version="3.18.700.v20210303-1800"/>
+			<unit id="org.eclipse.pde.feature.group" version="3.14.700.v20210303-1800"/>
+			<unit id="org.eclipse.emf.sdk.feature.group" version="2.25.0.v20210114-1734"/>
+			<repository location="https://download.eclipse.org/releases/2021-03"/>
+			<unit id="org.eclipse.emf.ecore.xcore.sdk.feature.group" version="1.17.0.v20210125-0553"/>
+			<unit id="org.eclipse.epp.package.rcp.feature.feature.group" version="4.19.0.20210311-1200"/>
+			<unit id="org.aopalliance" version="1.0.0.v201105210816"/>	
+	</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<unit id="org.eclipse.emf.mwe2.launcher.feature.group" version="0.0.0"/>
+			<repository location="https://download.eclipse.org/modeling/emft/mwe/updates/releases/2.12.2/"/>
+		</location>
+			<!-- Xtext 2.26, which is needed for lsp4j 0.12, which is needed for LSP 13.16, which is needed for the VSCode language
+					 client 7.x, which is needed for Sprotty 0.2. -->
+		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<unit id="org.eclipse.xtext.sdk.feature.group" version="0.0.0"/>
+			<repository location="https://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.26.0/"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<unit id="com.google.gson" version="2.8.6.v20201231-1626"/>
+			<unit id="org.antlr.runtime" version="3.2.0.v201101311130"/>
+			<unit id="org.junit" version="4.12.0.v201504281640"/>
+			<unit id="org.junit.jupiter.api" version="5.7.1.v20210222-1948"/>
+			<unit id="org.junit.jupiter.engine" version="5.7.1.v20210222-1948"/>
+			<unit id="org.junit.platform.commons" version="1.7.1.v20210222-1948"/>
+			<unit id="org.junit.platform.engine" version="1.7.1.v20210222-1948"/>
+			<unit id="org.junit.platform.launcher" version="1.7.1.v20210222-1948"/>
+			<unit id="org.junit.platform.runner" version="1.7.1.v20210222-1948"/>
+			<unit id="org.opentest4j" version="1.2.0.v20190826-0900"/>
+			<unit id="org.objectweb.asm" version="9.1.0.v20210209-1849"/>
+			<unit id="org.objectweb.asm.tree" version="9.1.0.v20210209-1849"/>
+			<unit id="io.github.classgraph" version="4.8.35.v20190528-1517"/>
+			<repository location="https://download.eclipse.org/tools/orbit/downloads/2021-03"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="https://download.eclipse.org/releases/2021-12"/>
+			<unit id="org.eclipse.lsp4j.sdk.feature.group" version="0.12.0.v20210402-1310"/>
+		</location>
+		<location includeSource="true" missingManifest="generate" type="Maven">
+			<dependencies>
+				<dependency>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+					<version>27.1-jre</version>
+					<type>jar</type>
+				</dependency>
+				<dependency>
+					<groupId>com.google.inject</groupId>
+					<artifactId>guice</artifactId>
+					<version>3.0</version>
+					<type>jar</type>
+				</dependency>
+				<dependency>
+					<groupId>org.eclipse.elk</groupId>
+					<artifactId>org.eclipse.elk.alg.common</artifactId>
+					<version>0.7.1</version>
+					<type>jar</type>
+				</dependency>
+				<dependency>
+				    <groupId>org.eclipse.elk</groupId>
+				    <artifactId>org.eclipse.elk.alg.rectpacking</artifactId>
+				    <version>0.7.1</version>
+				</dependency>
+				<dependency>
+					<groupId>org.eclipse.elk</groupId>
+					<artifactId>org.eclipse.elk.alg.layered</artifactId>
+					<version>0.7.1</version>
+					<type>jar</type>
+				</dependency>
+				<dependency>
+					<groupId>org.eclipse.elk</groupId>
+					<artifactId>org.eclipse.elk.core</artifactId>
+					<version>0.7.1</version>
+					<type>jar</type>
+				</dependency>
+				<dependency>
+					<groupId>org.eclipse.elk</groupId>
+					<artifactId>org.eclipse.elk.graph</artifactId>
+					<version>0.7.1</version>
+					<type>jar</type>
+				</dependency>
+				<dependency>
+					<groupId>org.eclipse.sprotty</groupId>
+					<artifactId>org.eclipse.sprotty.layout</artifactId>
+					<version>0.10.0-SNAPSHOT</version>
+					<type>jar</type>
+				</dependency>
+				<dependency>
+					<groupId>org.eclipse.sprotty</groupId>
+					<artifactId>org.eclipse.sprotty.server</artifactId>
+					<version>0.10.0-SNAPSHOT</version>
+					<type>jar</type>
+				</dependency>
+				<dependency>
+					<groupId>org.eclipse.sprotty</groupId>
+					<artifactId>org.eclipse.sprotty.xtext</artifactId>
+					<version>0.10.0-SNAPSHOT</version>
+					<type>jar</type>
+				</dependency>
+				<dependency>
+					<groupId>org.eclipse.sprotty</groupId>
+					<artifactId>org.eclipse.sprotty</artifactId>
+					<version>0.10.0-SNAPSHOT</version>
+					<type>jar</type>
+				</dependency>
+			</dependencies>
+		</location>
+	</locations>
+</target>

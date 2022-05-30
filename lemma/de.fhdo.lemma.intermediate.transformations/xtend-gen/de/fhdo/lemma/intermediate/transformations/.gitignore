@@ -1,0 +1,11 @@
+/AbstractAtlInputOutputIntermediateModelTransformationStrategy.java
+/TransformationModelDescription.java
+/TransformationModelDirection.java
+/TransformationModelType.java
+/AbstractEmftvmIntermediateModelTransformationStrategy.java
+/AbstractInputModelValidator.java
+/AbstractIntermediateModelTransformationStrategy.java
+/IntermediateTransformationException.java
+/IntermediateTransformationExceptionKind.java
+/IntermediateTransformationPhase.java
+/TargetModelInfo.java

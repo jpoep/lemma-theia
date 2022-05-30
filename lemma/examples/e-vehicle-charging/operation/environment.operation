@@ -1,0 +1,31 @@
+import microservices from "../microservices/environment.services" as environmentService
+
+/*
+ * Import of a technology model, which defines operation technology. Please note that this is part
+ * of our current work in implementing technology models to separate the service functionality from
+ * the service technology concern and make technology definitions reusable across microservices and
+ * operation nodes. The imported model is assigned to Container instances with the "@technology"
+ * annotation.
+ */
+import technology from "../technology/shared.technology" as environmentTech
+import technology from "../technology/container_base.technology" as container_base
+
+import nodes from "eureka.operation" as eureka
+import nodes from "zuul.operation" as zuul
+
+// Operation specification for the EnvironmentService
+@technology(environmentTech)
+@technology(container_base)
+container EnvironmentContainer
+    deployment technology container_base::_deployment.Kubernetes
+    deploys environmentService::v01.de.fhdo.EnvironmentService
+    depends on nodes eureka::Eureka, zuul::Zuul {
+    default values {
+        springApplicationName="EnvironmentService"
+        serverPort=8080
+        basic endpoints {
+            environmentTech::_protocols.rest,
+            environmentTech::_protocols.mqtt: "http://www.example.com:8080";
+        }
+    }
+}

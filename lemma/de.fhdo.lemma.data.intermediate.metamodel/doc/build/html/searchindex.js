@@ -1,0 +1,1 @@
+Search.setIndex({docnames:["index"],envversion:53,filenames:["index.rst"],objects:{},objnames:{},objtypes:{},terms:{The:0,develop:0,doc:0,document:0,github:0,guid:0,http:0,lemma:0,locat:0,now:0,offici:0,part:0,seelabfhdo:0},titles:["Intermediate Domain Model Specification"],titleterms:{domain:0,intermedi:0,model:0,specif:0}})

@@ -1,0 +1,99 @@
+context customerManagementBackend {
+    structure CustomerId<valueObject> {
+        immutable string id
+    }
+
+    structure AddressDto<valueObject> {
+        immutable string streetAddress,
+        immutable string postalCode,
+        immutable string city
+    }
+
+    list AddressDtos { AddressDto d }
+
+    structure CustomerDto<valueObject> {
+        immutable string customerId,
+        immutable CustomerProfileDto customerProfile
+    }
+
+    list CustomerDtos { CustomerDto d }
+
+    structure CustomerProfileDto<valueObject> {
+        immutable string firstname,
+        immutable string lastname,
+        immutable date birthday,
+        immutable AddressDto currentAddress,
+        immutable string email,
+        immutable string phoneNumber,
+        immutable AddressDtos moveHistory
+    }
+
+    structure CustomersDto<valueObject> {
+        immutable CustomerDtos customers
+    }
+
+    structure PaginatedCustomerResponseDto<valueObject> {
+        immutable string filter,
+        immutable int limit,
+        immutable int offset,
+        immutable int size,
+        immutable CustomerDtos customers
+    }
+
+    structure MessageDto<valueObject> {
+        immutable string id,
+        immutable date ^date,
+        immutable string customerId<neverEmpty>,
+        immutable string username<neverEmpty>,
+        immutable string content<neverEmpty>,
+        immutable boolean sentByOperator
+    }
+
+    structure InteractionEntity<entity> {
+        string id<identifier>,
+        date ^date,
+        string content,
+        boolean sentByOperator
+    }
+
+    structure InteractionLogAggregateRoot<entity, aggregate> {
+        immutable string customerId<identifier>,
+        immutable string username,
+        string lastAcknowledgedInteractionId,
+        immutable InteractionEntities interactions<part>,
+
+        function int getNumberOfUnacknowledgedInteractions
+    }
+
+    list InteractionEntities { InteractionEntity i }
+
+    structure InteractionLogService<domainService> {
+        hide InteractionLogRepository interactionLogRepository,
+        function Notifications getNotifications
+    }
+
+    structure Notification<valueObject> {
+        immutable string customerId,
+        immutable string username,
+        immutable int count
+    }
+
+    list Notifications { Notification n }
+
+    structure InteractionAcknowledgementDto<valueObject> {
+        immutable string lastAcknowledgedInteractionId<neverEmpty>
+    }
+
+    structure NotificationDto<valueObject> {
+        immutable string customerId,
+        immutable string username,
+        immutable int count
+    }
+
+    list NotificationDtos { NotificationDto d }
+
+    structure InteractionLogRepository<repository> {
+        InteractionLogAggregateRoot interactionLogAggregate,
+        string customerId
+    }
+}

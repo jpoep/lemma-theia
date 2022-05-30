@@ -1,0 +1,90 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <relativePath>../de.fhdo.lemma.technology.technologydsl.parent/pom.xml</relativePath>
+        <groupId>de.fhdo.lemma.technology.technologydsl</groupId>
+        <artifactId>parent</artifactId>
+        <version>0.8.5-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>de.fhdo.lemma.technology.technologydsl.metamodel</artifactId>
+    <packaging>eclipse-plugin</packaging>
+
+    <profiles>
+        <profile>
+            <id>eclipse-updatesite</id>
+            <activation>
+                <property>
+                    <name>env.LEMMA_UPDATESITE_BUILD</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <properties>
+                <skipTests>true</skipTests>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>deployment</id>
+            <activation>
+                <property>
+                    <name>env.LEMMA_DEPLOYMENT</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <properties>
+                <skipTests>true</skipTests>
+            </properties>
+        </profile>
+    </profiles>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.eclipse.emf</groupId>
+            <artifactId>org.eclipse.emf.common</artifactId>
+            <version>${emf-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.emf</groupId>
+            <artifactId>org.eclipse.emf.ecore</artifactId>
+            <version>${emf-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.xtext</groupId>
+            <artifactId>org.eclipse.xtext.xbase.lib</artifactId>
+            <version>${xtext-version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>${build-helper-maven-plugin-version}</version>
+                <executions>
+                  <execution>
+                    <id>add-source</id>
+                    <phase>generate-sources</phase>
+                    <goals>
+                      <goal>add-source</goal>
+                    </goals>
+                    <configuration>
+                      <sources>
+                        <source>src-gen/</source>
+                      </sources>
+                    </configuration>
+                  </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin-version}</version>
+            </plugin>
+        </plugins>
+    </build>
+</project>

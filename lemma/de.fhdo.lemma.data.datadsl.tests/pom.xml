@@ -1,0 +1,85 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <relativePath>../de.fhdo.lemma.data.datadsl.parent/pom.xml</relativePath>
+        <groupId>de.fhdo.lemma.data.datadsl</groupId>
+        <artifactId>parent</artifactId>
+        <version>0.8.5-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>de.fhdo.lemma.data.datadsl.tests</artifactId>
+    <packaging>eclipse-test-plugin</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit-version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <testSourceDirectory>${project.basedir}/xtend-gen</testSourceDirectory>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>gen-clean</id>
+                        <phase>clean</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.eclipse.xtend</groupId>
+                <artifactId>xtend-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <!--
+                        By default, the Surefire plugin searches compiled test classes in the
+                        "target/test-classes" folder. However, since we treat test code regular
+                        source code in the DSL's "tests" sub-project (i.e., the code resides in the
+                        "src" folder rather than "src/test/java"), we adapt the search folder for
+                        test classes to "target/classes", which Maven by default uses as the target
+                        folder for compiled Java classes.
+                    -->
+                    <testClassesDirectory>${project.build.directory}/classes</testClassesDirectory>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+            </plugin>
+
+            <!-- Currently not used -->
+            <!-- <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-surefire-plugin</artifactId>
+                <version>${tycho-version}</version>
+                <configuration>
+                    <useUIHarness>false</useUIHarness>
+                    <useUIThread>false</useUIThread>
+                    <failIfNoTests>false</failIfNoTests>
+                </configuration>
+            </plugin>-->
+        </plugins>
+    </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </reporting>
+</project>

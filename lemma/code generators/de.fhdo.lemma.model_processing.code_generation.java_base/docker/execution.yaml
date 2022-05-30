@@ -1,0 +1,46 @@
+- processor:
+  - description: "LEMMA Java Generator"
+  - docker:
+    - image: "lemma/java_generator:latest"
+    - repository: "docker.repository.seelab.fh-dortmund.de"
+    - buildscript: "./build.sh"
+    - lemma_version_file: "../gradle.properties"
+  - execution_steps:
+    - code_generation
+    - main
+    - --code_generation_serializer=args.pattern
+    - --alternative_intermediate_service_model=args.alternativeIntermediateServiceModel?
+    - --genlet=/home/genlets/de.fhdo.lemma.model_processing.code_generation.ddd.jar
+    - --genlet=/home/genlets/de.fhdo.lemma.model_processing.code_generation.springcloud.jar
+    - --genlet=/home/genlets/de.fhdo.lemma.model_processing.code_generation.springcloud.cqrs.jar
+    - --genlet=/home/genlets/de.fhdo.lemma.model_processing.code_generation.springcloud.domain_events.jar
+    - --genlet=/home/genlets/de.fhdo.lemma.model_processing.code_generation.springcloud.kafka.jar
+
+- required_args:
+  - builtin:
+    - intermediate_model: "path to intermediate service or mapping model (must be relative to model base path)"
+    - target_folder: "path to generation target folder"
+
+- optional_args:
+  - builtin:
+    - source_model: "path to source service or mapping model (must be relative to model base path)"
+  - custom:
+    - pattern:
+        - option: "-p"
+        - type: "str"
+        - choices: [
+            "extended-generation-gap",
+            "generation-gap",
+            "plain"
+        ]
+        - default: "extended-generation-gap"
+        - help: "code generation pattern (default: extended-generation-gap)"
+
+    - alternativeIntermediateServiceModel:
+        - option: "-a"
+        - type: "str"
+        - help: "alternative intermediate service model (microservice generation will happen based on this model, while for domain concept generation the passed intermediate model will be used; path must be relative to model base path)"
+        - execution:
+          - filesystem_element: "file"
+          - is_relative_to_base_path: true
+          - must_exist: true

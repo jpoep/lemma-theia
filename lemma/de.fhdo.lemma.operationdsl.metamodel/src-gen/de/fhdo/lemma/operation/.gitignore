@@ -1,0 +1,14 @@
+/BasicEndpoint.java
+/Container.java
+/DeploymentTechnologyReference.java
+/ImportedMicroservice.java
+/ImportedOperationAspect.java
+/InfrastructureNode.java
+/InfrastructureTechnologyReference.java
+/OperationFactory.java
+/OperationModel.java
+/OperationNode.java
+/OperationPackage.java
+/PossiblyImportedOperationNode.java
+/ProtocolAndDataFormat.java
+/ServiceDeploymentSpecification.java

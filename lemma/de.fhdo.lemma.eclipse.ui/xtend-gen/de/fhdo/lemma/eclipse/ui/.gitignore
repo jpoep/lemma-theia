@@ -1,0 +1,10 @@
+/AbstractIntermediateModelTransformationController.java
+/AbstractUiModelTransformationStrategy.java
+/IntermediateModelTransformationController.java
+/IntermediateOperationModelTransformationController.java
+/IntermediateServiceModelTransformationController.java
+/ModelFileStyledLabelProvider.java
+/ModelFile.java
+/ModelFileTypeDescription.java
+/OperationModelTransformationStrategy.java
+/ServiceModelTransformationStrategy.java

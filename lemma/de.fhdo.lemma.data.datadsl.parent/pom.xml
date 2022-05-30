@@ -1,0 +1,299 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>de.fhdo.lemma.data.datadsl</groupId>
+	<artifactId>parent</artifactId>
+	<version>0.8.5-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>../de.fhdo.lemma.data.datadsl.metamodel</module>
+		<module>../de.fhdo.lemma.data.datadsl.target</module>
+		<module>../de.fhdo.lemma.data.datadsl</module>
+		<module>../de.fhdo.lemma.data.datadsl.ide</module>
+		<module>../de.fhdo.lemma.data.datadsl.extractor</module>
+		<!--
+            Exclude unnecessary UI from build, which also prevents transitive dependencies to
+            other UI projects.
+        -->
+		<!-- <module>../de.fhdo.lemma.data.datadsl.ui</module> -->
+		<!-- <module>../de.fhdo.lemma.data.datadsl.ui.tests</module> -->
+		<!--<module>../de.fhdo.lemma.data.datadsl.tests</module>-->
+	</modules>
+
+	<profiles>
+		<profile>
+			<id>eclipse-updatesite</id>
+			<activation>
+				<property>
+					<name>env.LEMMA_UPDATESITE_BUILD</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<properties>
+				<skipTests>true</skipTests>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>deployment</id>
+			<activation>
+				<property>
+					<name>env.LEMMA_DEPLOYMENT</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<properties>
+				<skipTests>true</skipTests>
+			</properties>
+		</profile>
+	</profiles>
+
+	<properties>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<build-helper-maven-plugin-version>3.2.0</build-helper-maven-plugin-version>
+		<lemma-utils-version>${project.version}</lemma-utils-version>
+		<eclipse-version>2021-03</eclipse-version>
+		<!--
+            Last version with which Xtext bundling seems to be trivially feasible. Newer versions
+            include ANTLR, which can lead to version clashes in Gradle projects including both Xtext
+            and Xcore dependencies.
+        -->
+		<ecore-xcore-version>1.3.1</ecore-xcore-version>
+		<ecore-xtext-version>1.5.0</ecore-xtext-version>
+		<emf-version>2.22.0</emf-version>
+		<exec-maven-plugin-version>3.0.0</exec-maven-plugin-version>
+		<junit-version>4.13</junit-version>
+		<lifecycle-mapping-version>1.0.0</lifecycle-mapping-version>
+		<lsp4j-version>0.12.0</lsp4j-version>
+		<maven-assembly-plugin-version>3.3.0</maven-assembly-plugin-version>
+		<maven-clean-plugin-version>3.1.0</maven-clean-plugin-version>
+		<maven-compiler-plugin-version>3.8.1</maven-compiler-plugin-version>
+		<maven-site-plugin-version>3.9.1</maven-site-plugin-version>
+		<maven-surefire-plugin-version>3.0.0-M5</maven-surefire-plugin-version>
+		<maven-surefire-report-plugin-version>${maven-surefire-plugin-version}</maven-surefire-report-plugin-version>
+		<metamodel-version>${project.version}</metamodel-version>
+		<org-eclipse-emf-mwe2-launch-version>2.12.2.M1</org-eclipse-emf-mwe2-launch-version>
+		<tycho-version>2.6.0</tycho-version>
+		<versions-maven-plugin-version>2.8.1</versions-maven-plugin-version>
+		<xtext-version>2.26.0.M2</xtext-version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.eclipse.xtext</groupId>
+				<artifactId>xtext-dev-bom</artifactId>
+				<version>${xtext-version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<!--<repositories>
+		<repository>
+			<id>sonatype</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<name>sonatype snapshots</name>
+		</repository>
+
+		<repository>
+			<id>eclipse</id>
+			<layout>p2</layout>
+			<url>http://download.eclipse.org/releases/${eclipse-version}/</url>
+		</repository>
+
+		<repository>
+			<id>lsp4j</id>
+			<layout>p2</layout>
+			<url>https://download.eclipse.org/lsp4j/updates/releases/${lsp4j-version}</url>
+		</repository>
+
+		<repository>
+			<id>Xtext Update Site</id>
+			<layout>p2</layout>
+			<url>http://download.eclipse.org/modeling/tmf/xtext/updates/releases/${xtext-version}/</url>
+		</repository>
+	</repositories>-->
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.xtend</groupId>
+					<artifactId>xtend-maven-plugin</artifactId>
+					<version>${xtext-version}</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>compile</goal>
+								<goal>xtend-install-debug-info</goal>
+								<goal>testCompile</goal>
+								<goal>xtend-test-install-debug-info</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<outputDirectory>xtend-gen</outputDirectory>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>${maven-clean-plugin-version}</version>
+					<executions>
+						<execution>
+							<id>gen-clean</id>
+							<goals>
+								<goal>clean</goal>
+							</goals>
+							<configuration>
+								<filesets>
+									<fileset>
+										<directory>${basedir}/xtend-gen</directory>
+									</fileset>
+								</filesets>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${maven-surefire-plugin-version}</version>
+					<executions>
+						<execution>
+							<id>test</id>
+							<phase>test</phase>
+							<goals>
+								<goal>test</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>${maven-site-plugin-version}</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-report-plugin</artifactId>
+					<version>${maven-surefire-report-plugin-version}</version>
+					<executions>
+						<execution>
+							<id>during-tests</id>
+							<phase>test</phase>
+							<goals>
+								<goal>report</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<outputDirectory>target/surefire-reports</outputDirectory>
+						<linkXRef>false</linkXRef>
+					</configuration>
+				</plugin>
+
+				<!--
+                    Disable test execution by Tycho's Surefire plugin because it contradicts the
+                    execution of the language/parsing tests with the regular Surefire plugin. More
+                    precisely, test execution by Tycho's Surefire plugin will result in
+                    FileSystemExceptions as in Tycho test execution resources of a JAR are prefixed
+                    by "bundleresource://" instead of "file://". This prefixing results in
+                    Paths.get(uri) to fail with the mentioned exception. Therefore, we rely on the
+                    regular Surefire plugin and not on its Tycho-specific version, since the former
+                    accesses JAR resources as files instead of OSGi bundle resources.
+                -->
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-surefire-plugin</artifactId>
+					<version>${tycho-version}</version>
+					<configuration>
+						<failIfNoTests>false</failIfNoTests>
+						<excludes>
+							<exclude>**/*Test*.class</exclude>
+						</excludes>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>target-platform-configuration</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<target>
+						<artifact>
+							<groupId>de.fhdo.lemma.data.datadsl</groupId>
+							<artifactId>de.fhdo.lemma.data.datadsl.target</artifactId>
+							<version>${project.version}</version>
+						</artifact>
+					</target>
+					<environments>
+						<environment>
+							<os>macosx</os>
+							<ws>cocoa</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>win32</os>
+							<ws>win32</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86_64</arch>
+						</environment>
+					</environments>
+					<dependency-resolution>
+						<extraRequirements>
+							<requirement>
+								<type>eclipse-plugin</type>
+								<id>org.eclipse.xtext.logging</id>
+								<versionRange>1.2.15</versionRange>
+							</requirement>
+							<!-- to get the org.eclipse.osgi.compatibility.state plugin if the target 
+								platform is Luna or later. (backward compatible with kepler and previous 
+								versions) see https://bugs.eclipse.org/bugs/show_bug.cgi?id=492149 -->
+							<requirement>
+								<type>eclipse-feature</type>
+								<id>org.eclipse.rcp</id>
+								<versionRange>0.0.0</versionRange>
+							</requirement>
+						</extraRequirements>
+					</dependency-resolution>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<extensions>true</extensions>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-versions-plugin</artifactId>
+				<version>${tycho-version}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<version>${versions-maven-plugin-version}</version>
+			</plugin>
+		</plugins>
+	</build>
+</project>
